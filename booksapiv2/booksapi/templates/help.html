@@ -1,0 +1,80 @@
+<HTML>
+        <HEAD>
+        </HEAD>
+                <BODY>
+                        <P><B><CENTER><H2>booksapi help</H2></CENTER></B></P>
+
+<u>Table of Contents</u><BR>
+<li><A HREF="#Overview">Overview</A></li>
+<li><A HREF="#Schemes">Schemes</A></li>
+<li><A HREF="#EndPoints">EndPoints</A></li>
+<li><A HREF="#Examples">Examples</A></li>
+
+<a id="Overview"><h4>Overview</h4></a>
+Booksapi is a RESTful API that can be used to list all O'Reilly books or search for books based upon criteria.<BR>
+
+<a id="Schemes"><H4>Schemes - HTTPS</H4></a>
+This API is would normally be protected by SSL using our standard wildcard certificates but for this demo it is not. We are however protecting most endpoints with basic auth so you'll need to craft your api client or curl calls accordingly. See examples below.<BR>
+
+<a id="API_Base"><H4>API Base URL</H4></a>
+The base URL for booksapi is http://booksapi.oreilly.com/api/v1. Since we are using this in Minikube make sure to edit your hosts file and flush your DNS cache on your Mac. Then enable the Minikube Ingress module and start minikube tunnel.<BR>
+
+<a id="Endpoints"><H4>EndPoints</H4></a>
+API EndPoints are illustrated in the following table:<BR>
+
+<H4>HELP:</H4>
+<TABLE border=1>
+        <TR style="background-color:#E6FA3D"><TD>Method</TD><TD>URL</TD><TD>Notes</TD></TR>
+        <TR><TD>GET</TD><TD>/help</TD><TD>Access this help reference /</TD></TR>
+</TABLE>
+
+<H4>List:</H4>
+<TABLE border=1>
+        <TR style="background-color:#E6FA3D"><TD>Method</TD><TD>URL</TD><TD>Notes</TD></TR>
+        <TR><TD>GET</TD><TD>/books</TD><TD>List all books /</TD></TR>
+</TABLE>
+  <H4>Search:</H4>
+ <TABLE border=1>
+         <TR style="background-color:#E6FA3D"><TD>Method</TD><TD>URL</TD><TD>Notes</TD><TD>JSON Payload Example</TD><TD>Result</TD></TR>
+		 <TR><TD>GET</TD><TD>/search/title</TD><TD>Search by title.</TD><TD>pass urlencoded params</TD><TD>JSON formatted answer returned</TR>
+		 <TR><TD>GET</TD><TD>/search/authors</TD><TD>Search by author.</TD><TD>pass urlencoded params</TD><TD>JSON formatted answer returned</TR>
+		 <TR><TD>GET</TD><TD>/search/isdn</TD><TD>Search by isdn number.</TD><TD>pass urlencoded params</TD><TD>JSON formatted answer returned</TR>
+</TABLE>
+
+  <H4>Examples:</H4>
+ <H4>Access the help</HR>
+One may access the help section without authentication.<BR>
+<pre>
+curl -v apitest.oreilly.com/ or curl -v apitest.oreilly.com/help
+</pre>
+
+<H4>List all books</H4>
+One may list all books in the catalog by accesing the /books endpoint.<BR>
+<pre>
+    curl apitest.oreilly.com/books -u "user:password"
+</pre>
+
+<H4>Search for a book by title</H4>
+Search for titles using the /search endpoint and passing in the title argument. Be sure to url-encode.<BR>
+<pre>
+    curl -G -v "apitest.oreilly.com/search/title/" --data-urlencode "title=Python Projects" -u "user:password"
+</pre>
+Or using a browser:<BR>
+<pre>
+    http://apitest.oreilly.com/search?title=Robust%20Python
+</pre>
+
+<H4>Search for a book by author</H4>
+Search for a book by author by using the /search endpoint and passing in the authors argument.<BR>
+<pre>
+    curl -G -v "apitest.oreilly.com/search/authors" --data-urlencode "authors=John Paul Mueller" -u "user:password"
+</pre>
+
+<H4>Search for a book by isdn</H4>
+You may search by isbn using the /search endpoint and providing the isbn argument.<BR>
+<pre>
+    curl -G -v "apitest.oreilly.com/search/isbn/" --data-urlencode "isbn=9781593279288" -u "user:password"
+</pre>
+
+
+ </HTML>

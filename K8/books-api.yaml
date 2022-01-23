@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: books-api 
+  namespace: books-api
+  labels:
+    zone: prod
+    version: v1
+    app: books-api
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: books-api 
+  template:
+    metadata:
+      labels:
+        app: books-api 
+    spec:
+      containers:
+      - name: books-api 
+        image: dcarrollno/booksapi
+        volumeMounts:
+        - name: books-api-configs
+          mountPath: "/etc/booksapi"
+          readOnly: true
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: books-api-configs
+                key: POSTGRES_HOST
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: books-api-configs
+                key: POSTGRES_DB
+          - name: POSTGRES_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: books-api-configs
+                key: POSTGRES_PORT
+          - name: API_USER
+            valueFrom:
+              secretKeyRef:
+                name: api-credentials
+                key: user
+          - name: API_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: api-credentials
+                key: password
+          - name: APIHOST
+            valueFrom:
+              configMapKeyRef:
+                name: books-api-configs
+                key: APIHOST
+          - name: APIPORT
+            valueFrom:
+              configMapKeyRef:
+                name: books-api-configs
+                key: APIPORT
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        ports:
+          - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+      volumes:
+      - name: books-api-configs
+        configMap:
+          name: books-api-configs

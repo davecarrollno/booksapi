@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: booksapi
+Version: 2022.1.23.1
+Summary: Simple API for containerized book search
+Home-page: git location
+Author: Dave Carroll
+Author-email: dcarroll@example.com
+License: UNKNOWN
+Keywords: api
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 5 - Production/Stable
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+This is a simple sample restful api to play with a book catalog.
+
+
+

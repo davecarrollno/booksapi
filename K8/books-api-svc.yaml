@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: books-api-svc
+  namespace: books-api 
+spec:
+  selector:
+    app: books-api 
+  type: LoadBalancer 
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5000 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: books-api-ingress
+  namespace: books-api
+spec:
+  rules:
+    - host: apitest.oreilly.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: books-api-svc 
+              port:
+                number: 8080
+
