@@ -113,7 +113,6 @@ def help():
 
 @auth.verify_password
 def verify_user(user,password):
-    print(request.args)
     if user and password:
         if user == api_user and password == api_password:
             return(True)
