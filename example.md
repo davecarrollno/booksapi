@@ -1,4 +1,4 @@
-title = "CloudSQL Vendor Patching Notice - All Projects"
+title = "CloudSQL Vendor Patching Notice, All Projects"
 start_date = 2022-02-20
 end_date = 2022-02-20
 ---
